@@ -1,0 +1,175 @@
+$font-stack: Roboto;
+$border-radius-widget: 4px;
+$primary-color: var(--v-primary-base);
+$secondary-color: var(--v-secondary-base);
+$primary-color-darken: var(--v-primary-darken1);
+$info: var(--v-info-base);
+$font-title: 1.7em;
+$font-h2: 1.3em;
+$box-shadow-style: 0 3px 11px 0 #e8eafc, 0 3px 3px -2px hsla(0, 0%, 69.8%, .1019607843), 0 1px 8px 0 hsla(0, 0%, 60.4%, .1019607843) !important;
+* {
+  font: 100% $font-stack;
+}
+
+.v-main {
+  background: #F2F3F5;
+}
+
+.index-container {
+  min-height: 100%;
+}
+
+.mdi {
+  color: $info !important;
+}
+
+.v-btn-icon {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.primary-btn {
+  background-color: $primary-color !important;
+  color: $secondary-color !important;
+  border-radius: $border-radius-widget;
+}
+
+.primary-btn span {
+  font-weight: bold !important;
+}
+
+.secondary-btn {
+  background-color: $secondary-color !important;
+  color: $primary-color !important;
+  border-radius: $border-radius-widget !important;
+  border: 1px solid $primary-color !important;
+  font-weight: bold !important;
+}
+
+.selected-column-btn {
+  background-color: $secondary-color;
+  color: $primary-color;
+  border-radius: $border-radius-widget;
+  border: 1px solid $primary-color;
+  font-weight: bold !important;
+}
+
+.title-h1 {
+
+  font-size: $font-title;
+  color: $info;
+  font-weight: bold;
+}
+
+.title-h2 {
+  font-size: $font-h2;
+  color: $info;
+  font-weight: bold;
+}
+
+.title-h3 {
+  color: $info;
+  font-weight: bold !important;
+}
+
+.v-dialog {
+  border-radius: 15px !important;
+}
+
+.v-card-title {
+  font-weight: bolder !important;
+  color: $info !important;
+  font-size: 1.1em !important;
+}
+
+.v-card {
+  border-radius: $border-radius-widget !important;
+  padding-right: 1em !important;
+}
+
+.v-card-text {
+  font-size: initial;
+
+}
+
+.container-dialog {
+  outline: initial;
+  border-radius: $border-radius-widget;
+}
+
+.v-list {
+  border-radius: $border-radius-widget !important;
+  background-color: $secondary-color !important;
+}
+
+.listPool {
+  box-shadow: $box-shadow-style;
+  width: 100%;
+  //min-height: 20em !important;
+}
+
+.v-text-field {
+  border-radius: $border-radius-widget;
+
+}
+
+.buttonsTableList {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-around;
+}
+
+.header-table {
+  font-weight: 900 !important;
+}
+
+.card-style {
+  border-radius: 14px;
+  //border: 1px solid $primary-color !important;
+  box-shadow: $box-shadow-style;
+}
+
+
+// SCROLLBAR
+
+::-webkit-scrollbar {
+  width: 4px !important;
+  height: 4px !important;
+}
+
+::-webkit-scrollbar-button {
+  width: 100px !important;
+  height: 100px !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $primary-color !important;
+  border: 0px none $secondary-color !important;
+  border-radius: 4px !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $primary-color-darken !important;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: $primary-color-darken !important;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent !important;
+  border: 0px none transparent !important;
+  border-radius: 9px !important;
+}
+
+::-webkit-scrollbar-track:hover {
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-track:active {
+  background: transparent !important;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent !important;
+}
