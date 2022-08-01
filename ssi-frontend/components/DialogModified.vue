@@ -39,10 +39,9 @@
                     cancel
                   </v-btn>
                   <v-btn
-
                     class="primary-btn"
                     outlined
-
+                    @click="ActionDialog"
                   >
                     {{ actionButton }}
                   </v-btn>
@@ -78,11 +77,17 @@ export default {
   computed: {},
   methods: {
     closeDialog() {
-
       //this.$refs.form.reset()
       this.$emit('closeDialog')
       this.dialogModified = false
     },
+
+    ActionDialog() {
+      //questo metodo viene eseguito dopo Add di AddPoolprova
+      this.$emit('actionDialog')
+      alert('AddDialog')
+      this.dialogModified = false
+    }
 
   }
 }

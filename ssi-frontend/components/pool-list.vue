@@ -22,9 +22,12 @@
                 ></pool>
                 -->
                 <pool-new
+                  :index="i"
                   :name-pool="Pool.name"
                   :pool-json="Pool.genesys_txn"
-                ></pool-new>
+                  @cancelPool="cancelPoolItem"
+                >
+                </pool-new>
               </v-col>
             </v-row>
 
@@ -292,6 +295,11 @@ export default {
       ],
 
 
+    }
+  },
+  methods: {
+    cancelPoolItem(index) {
+      this.PoolList.splice(index, 1)
     }
   }
 }

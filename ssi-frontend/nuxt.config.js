@@ -109,7 +109,10 @@ export default {
             darken1: '#30c593',
           },
           secondary: '#ffffff',
-          info: '#6E6E6E'
+          info: {
+            base: '#6E6E6E',
+            darken1: '#'
+          }
 
         }
       }

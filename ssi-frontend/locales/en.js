@@ -11,7 +11,8 @@ export default {
     insertAuthorizationToken: 'insert Authorization Token',
     custom: 'Custom',
     UploadFile: 'Upload File',
-    insertFile: 'Insert your File'
+    insertFile: 'Insert your File',
+    AddAuthorizationToken: 'Add an Authorization Token'
 
   },
   error_messages: {

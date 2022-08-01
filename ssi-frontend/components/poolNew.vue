@@ -28,7 +28,7 @@
                         class="v-btn-icon"
                         fab
                         x-small
-                        @click.stop="cancelPool()"
+                        @click.stop="cancelPool"
                       >
                         <v-icon>mdi-delete</v-icon>
                       </v-btn>
@@ -182,7 +182,8 @@
 <script>
 import dialogModified from "~/components/DialogModified";
 import inputDialog from "~/components/inputDialog";
-import cardModified from "@/components/cardModified";
+import poolList from "@/components/pool-list";
+import PoolList from "@/components/pool-list";
 
 export default {
   data() {
@@ -316,6 +317,12 @@ export default {
         return [];
       }
     },
+    index: {
+      type: Number, default() {
+        return 0;
+      }
+    }
+
   },
   methods: {
 
@@ -327,13 +334,12 @@ export default {
       }
     },
 
-    cancelPool() {
-      alert('cancellata Pool')
+    cancelPool(index) {
+      this.$emit('cancelPool', this.index)
     },
     showData(item) {
       this.allDatadialog = true
       this.element = this.poolJson.find(element => element.txn.data.data.alias == item.txn.data.data.alias)
-      console.log(this.element)
       return this.element
     },
     SingleData(item) {
@@ -348,6 +354,6 @@ export default {
 
   },
 
-  components: {dialogModified, inputDialog, cardModified}
+  components: {dialogModified, inputDialog,}
 }
 </script>

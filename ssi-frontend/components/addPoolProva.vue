@@ -6,7 +6,7 @@
           v-model="dialog"
           action-button="Add"
           @closeDialog="close"
-
+          @actionDialog="Add"
         >
           <template v-slot:activator="{on,attrs}">
             <v-btn v-on="on" v-bind="attrs" class="primary-btn">Add Pool</v-btn>
@@ -22,6 +22,7 @@
                   ref="inputDialogData"
                   :dialogModified="dialogModified"
 
+
                 ></input-dialog>
                 <!--:emptyForm="emptyForm"-->
               </v-col>
@@ -31,7 +32,7 @@
                 <v-col cols="10" md="10">
                   <v-switch
                     inset
-                    color="#primary"
+                    color="primary"
                     v-model="customSovrin"
                     :label=changeMod()
                   >
@@ -53,7 +54,7 @@
                       <v-col cols="11" md="11">
                         <v-switch
                           v-model="UploadFile"
-                          color="#primary"
+                          color="primary"
                           inset
                           :label="$t('words.UploadFile')"
                         ></v-switch>
@@ -63,7 +64,7 @@
                       <v-col cols="11" md="11">
                         <v-file-input
                           v-model="chosenFile"
-                          color="#primary"
+                          color="primary"
                           :label="$t('words.UploadFile')"
                           :placeholder="$t('words.insertFile')"
                           prepend-inner-icon="mdi-cloud-upload"
@@ -81,6 +82,7 @@
                     <v-row justify="center">
                       <v-col cols="11" md="11">
                         <v-textarea
+
                           label="Genesys Txn"
                           outlined
                           :value="data"
@@ -107,6 +109,7 @@
 <script>
 import dialogModified from "@/components/DialogModified";
 import inputDialog from "@/components/inputDialog";
+import PoolList from "@/components/pool-list";
 
 export default {
   data() {
@@ -115,8 +118,8 @@ export default {
       customSovrin: true,
       UploadFile: false,
       chosenFile: null, // <- initialize the v-model prop
-      data: null,
-      dialog: false
+      data: undefined,
+      dialog: false,
     }
   },
   components: {
@@ -151,10 +154,19 @@ export default {
       this.UploadFile = false;
       this.chosenFile = null;
       this.data = null;
-      //richiamo metodo cancelData di InputDialog
       this.$refs.inputDialogData.cancelData()
-    }
+    },
+    Add() {
+      alert('Add di AddPool')
+      let NameNewPool = this.$refs.inputDialogData.namePool
 
+      let GenesysPoolNew = this.chosenFile
+      //this.$store.getters.PoolList.push({name: this.this.$refs.inputDialogData.namePool, genesys_txn: [GenesysPoolNew]})
+      //this.PoolList.push({name:NameNewPool,genesys_txn: {this.chosenFile}})
+      
+      //quando ci sara i ldatabase bastera fare il post con il push???
+
+    }
 
   }
 

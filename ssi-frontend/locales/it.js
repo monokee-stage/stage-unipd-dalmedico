@@ -11,7 +11,8 @@ export default {
     insertAuthorizationToken: 'Inserisci il Token di Autorizzazione',
     custom: 'Personalizza',
     UploadFile: 'Carica da File',
-    insertFile: 'Inserisci il tuo File'
+    insertFile: 'Inserisci il tuo File',
+    AddAuthorizationToken: 'Aggiungi un Token di Autorizzazione'
   },
   error_messages: {
     required: 'Il campo {field} è richiesto',
