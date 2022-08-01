@@ -126,6 +126,13 @@ export default {
     dialogModified,
     inputDialog,
   },
+  props: {
+    PoolList: {
+      type: Array, default() {
+        return []
+      }
+    }
+  },
   methods: {
     changeMod() {
       if (this.customSovrin == true) {
@@ -163,7 +170,7 @@ export default {
       let GenesysPoolNew = this.chosenFile
       //this.$store.getters.PoolList.push({name: this.this.$refs.inputDialogData.namePool, genesys_txn: [GenesysPoolNew]})
       //this.PoolList.push({name:NameNewPool,genesys_txn: {this.chosenFile}})
-      
+      this.PoolList.push({name: NameNewPool, genesys_txn: [GenesysPoolNew]})
       //quando ci sara i ldatabase bastera fare il post con il push???
 
     }
