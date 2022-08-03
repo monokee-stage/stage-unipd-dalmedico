@@ -90,18 +90,23 @@
                     </v-row>
                     <v-row justify="center">
                       <v-col cols="11" md="11">
-                        <v-textarea
-                          v-model="Filetext"
-                          label="Genesys Txn"
-                          outlined
-                          :value="data"
-                          auto-grow
-                          hide-details
-                          color="primary"
-                          readonly
+                        <validation-provider
+                          v-slot="{errors}"
+                          name="AuthorizationToken"
+                          :rules="{required:true}"
                         >
-                        </v-textarea>
-
+                          <v-textarea
+                            v-model="Filetext"
+                            label="Genesys Txn"
+                            outlined
+                            :value="data"
+                            auto-grow
+                            hide-details
+                            color="primary"
+                            readonly
+                          >
+                          </v-textarea>
+                        </validation-provider>
                       </v-col>
                     </v-row>
 
@@ -120,6 +125,7 @@
 import dialogModified from "@/components/DialogModified";
 import inputDialog from "@/components/inputDialog";
 import PoolList from "@/components/pool-list";
+import {ValidationProvider} from "vee-validate";
 
 export default {
   data() {
@@ -138,6 +144,7 @@ export default {
   components: {
     dialogModified,
     inputDialog,
+    ValidationProvider
   },
   props: {
     PoolList: {
@@ -157,6 +164,7 @@ export default {
     showFiles() {
       if (!this.chosenFile) {
         this.data = ""
+        this.Filetext = ''
       } else {
 
         let reader = new FileReader();
