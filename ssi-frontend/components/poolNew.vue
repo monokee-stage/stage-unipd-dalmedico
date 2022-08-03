@@ -4,6 +4,8 @@
       <v-col cols="10" md="10">
         <dialog-modified
           action-button="Save"
+          @closeDialog="cancel()"
+          @actionDialog="save()"
         >
           <template v-slot:activator="{on,attrs}">
 
@@ -15,7 +17,7 @@
                       <v-icon class="">mdi-alert-circle</v-icon>
                     </v-col>
                     <v-col cols="8" md="8" align="start">
-                      <h2 class="title-h2">{{ namePool }}</h2>
+                      <h2 class="title-h2">{{ namePoolLocal }}</h2>
                     </v-col>
                   </v-row>
                 </v-col>
@@ -23,9 +25,8 @@
                 <v-col cols="4" md="4">
                   <v-row justify="center">
                     <v-col class="" align="end">
-
                       <v-btn
-                        class="v-btn-icon"
+                        class="v-btn-icon mr-3"
                         fab
                         x-small
                         @click.stop="cancelPool"
@@ -42,8 +43,10 @@
             <v-row justify="center">
               <v-col cols="10" md="10">
                 <input-dialog
-                  :name-pool="namePool"
-                  :title="namePool"
+                  :name-pool="namePoolLocal"
+                  :title="namePoolLocal"
+                  @name-pool="namePoolLocal=$event"
+                  ref="inputDialogData"
                 ></input-dialog>
                 <v-container class="container-dialog" outlined>
                   <v-row align="center" justify="space-between">
@@ -85,7 +88,6 @@
                       >
                         <v-btn
                           v-for="(buttonTable,i) in button_table"
-
                           :key="i"
                           small>
                           {{ buttonTable.name }}
@@ -125,7 +127,7 @@
                         <v-btn
                           icon
                           dark
-                          @click="allDatadialog = false"
+                          @click="allDatadialog = false, chooseModVisual=false"
                         >
                           <v-icon color="white">mdi-close</v-icon>
                         </v-btn>
@@ -133,29 +135,57 @@
                         <v-spacer></v-spacer>
                       </v-toolbar>
                       <v-container>
-                        <v-list>
+                        <v-row justify="center">
+                          <v-col cols="10">
 
-                          <v-list-item
-                            v-for="(item, i) in button_table"
-                            :key="i"
-                          >
+                            <v-switch
+                              v-model="chooseModVisual"
+                              color="primary"
+                              :label="changeMod()"
+                              inset
+                              class="my-2"
+                            ></v-switch>
+
+                            <v-list v-if="chooseModVisual==false">
+
+                              <v-list-item
+                                v-for="(item, i) in button_table"
+                                :key="i"
+                              >
+                                <v-row justify="center">
+                                  <v-col cols="12" md="12">
+
+                                    <v-card class="card-style my-4">
+                                      <v-row>
+                                        <v-col align="center" cols="4" md="4">
+                                          <h3 class="title-h3">{{ item.name }}</h3>
+                                        </v-col>
+                                        <v-col cols="7" md="7">
+                                          <span>{{ SingleData(item) }}</span>
+                                        </v-col>
+                                      </v-row>
+                                    </v-card>
+                                  </v-col>
+                                </v-row>
+                              </v-list-item>
+                            </v-list>
                             <v-row justify="center">
-                              <v-col cols="10" md="10">
+                              <v-col cols="12" md="12">
 
-                                <v-card class="card-style my-4">
-                                  <v-row>
-                                    <v-col align="center" cols="4" md="4">
-                                      <h3 class="title-h3">{{ item.name }}</h3>
-                                    </v-col>
-                                    <v-col cols="7" md="7">
-                                      <span>{{ SingleData(item) }}</span>
-                                    </v-col>
-                                  </v-row>
-                                </v-card>
+                                <v-textarea
+                                  v-if="chooseModVisual==true"
+                                  readonly
+                                  outlined
+                                  color="primary"
+                                  :value="JSON.stringify(element, null ,2)"
+                                  auto-grow
+                                >
+
+                                </v-textarea>
                               </v-col>
                             </v-row>
-                          </v-list-item>
-                        </v-list>
+                          </v-col>
+                        </v-row>
                       </v-container>
 
                     </v-card>
@@ -188,6 +218,8 @@ import PoolList from "@/components/pool-list";
 export default {
   data() {
     return {
+      namePoolLocal: undefined,
+      namePoolBackup: this.namePoolLocal,
       search: undefined,
       switchMod: true,
       chooseMod: undefined,
@@ -195,6 +227,7 @@ export default {
       buttonIndex: [],
       table: [],
       allDatadialog: false,
+      chooseModVisual: false,
       element: {
         "reqSignature": {},
         "txn": {
@@ -204,9 +237,9 @@ export default {
               "blskey": "",
               "blskey_pop": "",
               "client_ip": "",
-              "client_port": null,
+              "client_port": 0,
               "node_ip": "",
-              "node_port": null,
+              "node_port": 0,
               "services": [
                 "VALIDATOR"
               ]
@@ -219,7 +252,7 @@ export default {
           "type": ""
         },
         "txnMetadata": {
-          "seqNo": null,
+          "seqNo": 0,
           "txnId": ""
         },
         "ver": ""
@@ -342,6 +375,7 @@ export default {
       this.element = this.poolJson.find(element => element.txn.data.data.alias == item.txn.data.data.alias)
       return this.element
     },
+
     SingleData(item) {
 
       const value = item.value.split('.')
@@ -350,7 +384,25 @@ export default {
         result = result[el]
       })
       return result
-    }
+    },
+
+    cancel() {
+      this.$refs.inputDialogData.returnOldData()
+
+    },
+    save() {
+
+    },
+
+  },
+  watch: {
+
+    namePoolLocal() {
+      this.$emit('name-pool', this.namePoolLocal)
+    },
+  },
+  mounted() {
+    this.namePoolLocal = this.namePool
 
   },
 

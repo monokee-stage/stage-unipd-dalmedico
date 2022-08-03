@@ -29,20 +29,29 @@
             </v-row>
             <v-container>
               <v-row justify="center">
-                <v-col cols="10" md="10">
-                  <v-switch
-                    inset
-                    color="primary"
-                    v-model="customSovrin"
-                    :label=changeMod()
+                <v-col cols="10" md="10" align="center">
+                  <v-btn-toggle
+                    v-model="customIndex"
+                    dense
+                    class="secondary-btn mb-5"
+                    background="secondary"
+                    borderless
+
                   >
-                  </v-switch>
+                    <v-btn
+                      v-for="(customIndex,i) in customButtons"
+                      :key="i"
+                      small
+                    >
+                      {{ customIndex }}
+                    </v-btn>
+                  </v-btn-toggle>
                 </v-col>
               </v-row>
               <v-row justify="center">
                 <v-col cols="10" md="10">
                   <v-card
-                    v-if="customSovrin==true"
+                    v-if="customIndex==2"
                   >
                     <v-row justify="center">
                       <v-col cols="10">
@@ -82,13 +91,14 @@
                     <v-row justify="center">
                       <v-col cols="11" md="11">
                         <v-textarea
-
+                          v-model="Filetext"
                           label="Genesys Txn"
                           outlined
                           :value="data"
                           auto-grow
                           hide-details
                           color="primary"
+                          readonly
                         >
                         </v-textarea>
 
@@ -120,6 +130,9 @@ export default {
       chosenFile: null, // <- initialize the v-model prop
       data: undefined,
       dialog: false,
+      Filetext: undefined,
+      customIndex: 2,
+      customButtons: ['Sovrin', 'mainnet indicio', 'custom']
     }
   },
   components: {
@@ -147,12 +160,9 @@ export default {
       } else {
 
         let reader = new FileReader();
-
-        // Use the javascript reader object to load the contents
-        // of the file in the v-model prop
         reader.readAsText(this.chosenFile);
         reader.onload = () => {
-          this.data = reader.result;
+          this.Filetext = reader.result;
         }
       }
     },
@@ -162,17 +172,34 @@ export default {
       this.chosenFile = null;
       this.data = null;
       this.$refs.inputDialogData.cancelData()
+      this.Filetext = null
     },
     Add() {
-      alert('Add di AddPool')
-      let NameNewPool = this.$refs.inputDialogData.namePool
+      let NameNewPool = this.$refs.inputDialogData.namePoolLocal
 
-      let GenesysPoolNew = this.chosenFile
-      //this.$store.getters.PoolList.push({name: this.this.$refs.inputDialogData.namePool, genesys_txn: [GenesysPoolNew]})
-      //this.PoolList.push({name:NameNewPool,genesys_txn: {this.chosenFile}})
-      this.PoolList.push({name: NameNewPool, genesys_txn: [GenesysPoolNew]})
-      //quando ci sara i ldatabase bastera fare il post con il push???
+      let array = []
+      let count = 0;
+      let obj = ''
+      this.Filetext = this.Filetext.replace(/\n/gm, '').replace(/\\/gm, '')
+      for (let i = 0; i < this.Filetext.length; i++) {
+        obj = obj + this.Filetext[i]
+        if (this.Filetext[i] == '{') count++
+        else {
+          if (this.Filetext[i] == '}') count--
+        }
+        if (count == 0) {
+          array.push(JSON.parse(obj))
+          obj = ''
+        }
+      }
 
+      let object = {
+        "name": NameNewPool,
+        "genesys_txn": array
+      }
+      this.PoolList.push(object)
+
+      this.close()
     }
 
   }

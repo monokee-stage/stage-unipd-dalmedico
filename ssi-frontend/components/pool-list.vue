@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="mt-5">
     <v-row align="center" justify="center">
-      <v-col class="" cols="12" md="7" lg="5">
+      <v-col class="" cols="12" md="12" lg="12">
 
         <v-list outlined color="#3CD4A0" class="listPool d-flex flex-column justify-space-around my-5">
 
@@ -26,6 +26,7 @@
                   :name-pool="Pool.name"
                   :pool-json="Pool.genesys_txn"
                   @cancelPool="cancelPoolItem"
+                  @name-pool="Pool.name=$event"
                 >
                 </pool-new>
               </v-col>

@@ -85,7 +85,6 @@ export default {
     ActionDialog() {
       //questo metodo viene eseguito dopo Add di AddPoolprova
       this.$emit('actionDialog')
-      alert('AddDialog')
       this.dialogModified = false
     }
 

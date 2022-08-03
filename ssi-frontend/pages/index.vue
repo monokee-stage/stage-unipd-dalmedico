@@ -15,10 +15,13 @@
           ></add-pool-prova>
         </v-col>
       </v-row>
-      <v-row class="mt-5">
-        <pool-list
-          :PoolList="PoolList"
-        ></pool-list>
+      <v-row class="mt-5" justify="center">
+        <v-col cols="8">
+
+          <pool-list
+            :PoolList="PoolList"
+          ></pool-list>
+        </v-col>
       </v-row>
 
     </v-card>

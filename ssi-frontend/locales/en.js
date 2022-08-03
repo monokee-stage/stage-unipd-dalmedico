@@ -7,12 +7,15 @@ export default {
     insertAgentUrl: 'Insert Agent Url',
     search: 'Search',
     table: 'Table',
-    AuthorizationToken: 'Authorization Token',
-    insertAuthorizationToken: 'insert Authorization Token',
+    AuthorizationTokenName: 'Authorization Token name',
+    AuthorizationTokenValue: 'Authorization Token value',
+    insertAuthorizationTokenName: 'insert Name of Authorization Token',
+    insertAuthorizationTokenValue: 'insert Value of Authorization Token',
     custom: 'Custom',
     UploadFile: 'Upload File',
     insertFile: 'Insert your File',
-    AddAuthorizationToken: 'Add an Authorization Token'
+    AddAuthorizationToken: 'Add an Authorization Token',
+    
 
   },
   error_messages: {

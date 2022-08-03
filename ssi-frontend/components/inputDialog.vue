@@ -19,7 +19,7 @@
             :rules="{required:true}"
           >
             <v-text-field
-              v-model="namePool"
+              v-model="namePoolLocal"
               dense
               outlined
               color="primary"
@@ -28,18 +28,10 @@
               :hide-details="errors.length==0"
               :error-messages="$t('error_messages.' + errors[0], {field:$t('words.name')})"
 
-            ></v-text-field>
+            >
+            </v-text-field>
+
           </validation-provider>
-        </v-col>
-      </v-row>
-      <v-row justify="center">
-        <v-col cols="12" md="12">
-          <v-switch
-            inset
-            v-model="customAgent"
-            color="primary"
-            :label="$t('words.customAgent')"
-          ></v-switch>
         </v-col>
       </v-row>
       <v-row justify="center">
@@ -47,10 +39,9 @@
           <validation-provider
             v-slot="{errors}"
             name="AgentUrl"
-            :rules="{required:true && customAgent===true}"
+            :rules="{required:true}"
           >
             <v-text-field
-              :disabled="customAgent===false"
               v-model="AgentUrl"
               dense
               outlined
@@ -63,6 +54,16 @@
           </validation-provider>
         </v-col>
       </v-row>
+      <v-row justify="center">
+        <v-col cols="12" md="12">
+          <v-switch
+            inset
+            v-model="customToken"
+            color="primary"
+            :label="$t('words.customAgent')"
+          ></v-switch>
+        </v-col>
+      </v-row>
       <v-row justify="center" align="center">
         <v-col cols="1" md="1">
           <v-btn
@@ -71,8 +72,8 @@
             icon
             small
             elevation="1"
-            :disabled="customAgent==false"
-            @click="addToken(AuthorizationToken,AuthorizationTokenList)"
+            :disabled="customToken==false"
+            @click="addToken(name, AuthorizationToken, AuthorizationTokenList)"
           >
             <v-icon>
               mdi-plus
@@ -83,27 +84,51 @@
           <h4 class="title-h4">{{ $t('words.AddAuthorizationToken') }}</h4>
         </v-col>
       </v-row>
-      <v-row justify="center">
-        <v-col cols="12" md="12"
+      <v-row justify="center"
+             v-for="(Token,i) in AuthorizationTokenList"
+             :key="i"
+      >
+        <v-col cols="6">
+          <validation-provider
+            v-slot="{errors}"
+            name="AuthorizationToken"
+            :rules="{required:true && customToken===true}"
+          >
 
-               v-for="(Token,i) in AuthorizationTokenList"
-               :key="i">
+            <v-text-field
+              :disabled="customToken===false"
+              v-model="Token.name"
+              dense
+              outlined
+              color="primary"
+              :label="$t('words.AuthorizationTokenName')"
+              :placeholder="$t('words.insertAuthorizationTokenName')"
+              :hide-details="errors.length==0"
+              :error-messages="$t('error_messages.' + errors[0], {fieldset:$t('words.AuthorizationToken')})"
+              append-icon="mdi-close"
+              @click:append="cancelToken(i, AuthorizationTokenList)"
+            ></v-text-field>
+            <!--|| emptyForm==true-->
+          </validation-provider>
+        </v-col>
+
+        <v-col cols="6" md="6">
 
 
           <validation-provider
             v-slot="{errors}"
             name="AuthorizationToken"
-            :rules="{required:true && customAgent===true}"
+            :rules="{required:true && customToken===true}"
           >
 
             <v-text-field
-              :disabled="customAgent===false"
+              :disabled="customToken===false"
               v-model="Token.AuthorizationToken"
               dense
               outlined
               color="primary"
-              :label="$t('words.AuthorizationToken')"
-              :placeholder="$t('words.insertAuthorizationToken')"
+              :label="$t('words.AuthorizationTokenValue')"
+              :placeholder="$t('words.insertAuthorizationTokenValue')"
               :hide-details="errors.length==0"
               :error-messages="$t('error_messages.' + errors[0], {fieldset:$t('words.AuthorizationToken')})"
               append-icon="mdi-close"
@@ -114,6 +139,7 @@
 
         </v-col>
       </v-row>
+
     </validation-observer>
   </v-container>
 </template>
@@ -138,11 +164,14 @@ extend("required", {
 export default {
   data() {
     return {
-      customAgent: true,
+      customToken: false,
       name: undefined,
       AgentUrl: undefined,
       AuthorizationToken: undefined,
       AuthorizationTokenList: [],
+      namePoolLocal: undefined,
+      namePoolBackup: this.namePoolLocal,
+
     }
   },
   props: {
@@ -163,38 +192,47 @@ export default {
     ValidationProvider,
     ValidationObserver,
   },
+  mounted() {
+    this.namePoolLocal = this.namePool
+  },
   methods: {
     cancelData() {
-      this.namePool = null
-      this.customAgent = true
+      this.namePoolLocal = this.namePoolBackup
+      this.customToken = false
       this.AgentUrl = null
       this.AuthorizationTokenList = []
       this.AuthorizationToken = null
       this.$nextTick(() => {
         this.$refs.observer.reset()
-
       });
-      //this.$refs.observer.reset();
     },
-    addToken(value, list) {
-      list.push({value: ""});
+    returnOldData() {
+      this.namePoolLocal = this.namePoolBackup
+
+    },
+    addToken(name, value, list) {
+      list.push({
+        name: "",
+        value: ""
+      });
     },
     cancelToken(index, list) {
       list.splice(index, 1)
-    }
+    },
+
   },
   watch: {
-    //emptyForm(newValue, oldValue) {
-    //fare reset
-    //if (newValue === true) {
-    //this.customAgent = true
-    //this.name = ''
-    //this.AgentUrl = ''
-    //this.AuthorizationToken = ''
 
-    //}
-    //}
+    namePoolLocal() {
+      this.$emit('name-pool', this.namePoolLocal)
+    }
+
   },
+  beforeMount() {
+    //mi salvo namePool come backup
+    this.namePoolBackup = this.namePool
+    console.log(this.namePoolBackup)
+  }
 
 }
 
