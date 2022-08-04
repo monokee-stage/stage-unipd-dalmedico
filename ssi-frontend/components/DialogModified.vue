@@ -9,37 +9,27 @@
             width="80%"
           >
             <template v-slot:activator="{ on, attrs }">
-
               <slot
                 name="activator"
                 v-bind:on="on"
                 v-bind:attrs="attrs">
-
               </slot>
-
             </template>
             <template>
-
               <v-card class="card-style">
-
                 <slot
                   name="content"
                   :dialogModified="dialogModified"
-
                 ></slot>
-
-                <!--:emptyForm="emptyForm"-->
                 <v-row justify="center">
                   <v-col class="d-flex justify-sm-end justify-xs-center my-8" cols="10" md="10">
                     <v-btn
                       @click="closeDialog"
                       class="secondary-btn mr-3"
                       outlined
-
                     >
                       cancel
                     </v-btn>
-                    <!--class="primary-btn"-->
                     <v-btn
                       class="primary-btn"
                       outlined
@@ -50,8 +40,6 @@
                     </v-btn>
                   </v-col>
                 </v-row>
-
-
               </v-card>
             </template>
           </v-dialog>
@@ -60,7 +48,6 @@
     </v-row>
   </v-container>
 </template>
-
 <script>
 
 import {ValidationObserver} from 'vee-validate'
@@ -69,7 +56,6 @@ export default {
   data() {
     return {
       dialogModified: false,
-      //emptyForm: false,
     }
   },
   props: {
@@ -77,28 +63,21 @@ export default {
       type: String, default() {
         return '';
       },
-
     },
-
   },
   computed: {},
   methods: {
     closeDialog() {
-      //this.$refs.form.reset()
       this.$emit('closeDialog')
       this.$nextTick(() => {
         this.$refs.observer.reset()
       });
       this.dialogModified = false
     },
-
     ActionDialog() {
-      //questo metodo viene eseguito dopo Add di AddPoolprova
       this.$emit('actionDialog')
       this.dialogModified = false
     },
-
-
   },
   components: {
     ValidationObserver,

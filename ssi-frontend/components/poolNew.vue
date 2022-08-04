@@ -8,7 +8,6 @@
           @actionDialog="save()"
         >
           <template v-slot:activator="{on,attrs}">
-
             <v-card v-on="on" class="card-style my-1 mx-3">
               <v-row align="center" justify="center">
                 <v-col cols="8" md="8">
@@ -44,8 +43,10 @@
               <v-col cols="10" md="10">
                 <input-dialog
                   :name-pool="namePoolLocal"
+                  :agent-url="agentLocal"
                   :title="namePoolLocal"
                   @name-pool="namePoolLocal=$event"
+                  @agent-url="agentLocal=$event"
                   ref="inputDialogData"
                 ></input-dialog>
                 <v-container class="container-dialog" outlined>
@@ -101,19 +102,13 @@
                     :headers="header"
                     :items="poolJson"
                     v-if="switchMod===true && header.length>0"
-
                   >
-
                     <template v-slot:item.AllData="{item}">
-
                       <v-icon
                         @click="showData(item)"
                       >mdi-eye
                       </v-icon>
-
                     </template>
-
-
                   </v-data-table>
                   <v-dialog
                     v-model="allDatadialog"
@@ -137,7 +132,6 @@
                       <v-container>
                         <v-row justify="center">
                           <v-col cols="10">
-
                             <v-switch
                               v-model="chooseModVisual"
                               color="primary"
@@ -145,16 +139,13 @@
                               inset
                               class="my-2"
                             ></v-switch>
-
                             <v-list v-if="chooseModVisual==false">
-
                               <v-list-item
                                 v-for="(item, i) in button_table"
                                 :key="i"
                               >
                                 <v-row justify="center">
                                   <v-col cols="12" md="12">
-
                                     <v-card class="card-style my-4">
                                       <v-row>
                                         <v-col align="center" cols="4" md="4">
@@ -171,7 +162,6 @@
                             </v-list>
                             <v-row justify="center">
                               <v-col cols="12" md="12">
-
                                 <v-textarea
                                   v-if="chooseModVisual==true"
                                   readonly
@@ -180,14 +170,12 @@
                                   :value="JSON.stringify(element, null ,2)"
                                   auto-grow
                                 >
-
                                 </v-textarea>
                               </v-col>
                             </v-row>
                           </v-col>
                         </v-row>
                       </v-container>
-
                     </v-card>
                   </v-dialog>
                   <v-textarea
@@ -213,13 +201,14 @@
 import dialogModified from "~/components/DialogModified";
 import inputDialog from "~/components/inputDialog";
 import poolList from "@/components/pool-list";
-import PoolList from "@/components/pool-list";
 
 export default {
   data() {
     return {
       namePoolLocal: undefined,
       namePoolBackup: this.namePoolLocal,
+      agentLocal: undefined,
+      agentBackup: this.agentLocal,
       search: undefined,
       switchMod: true,
       chooseMod: undefined,
@@ -316,8 +305,6 @@ export default {
           value: 'txn.data.data.alias',
           weight: 'bold'
         },
-
-
       ]
       for (let i = 0; i < headerSort.length; i++) {
         const element = this.button_table.find(element => element.key == headerSort[i])
@@ -354,11 +341,15 @@ export default {
       type: Number, default() {
         return 0;
       }
+    },
+    agentUrl: {
+      type: String,
+      default() {
+        return ''
+      }
     }
-
   },
   methods: {
-
     changeMod() {
       if (this.switchMod == true) {
         return this.$t('words.table')
@@ -366,7 +357,6 @@ export default {
         return "Json"
       }
     },
-
     cancelPool(index) {
       this.$emit('cancelPool', this.index)
     },
@@ -375,9 +365,7 @@ export default {
       this.element = this.poolJson.find(element => element.txn.data.data.alias == item.txn.data.data.alias)
       return this.element
     },
-
     SingleData(item) {
-
       const value = item.value.split('.')
       let result = this.element
       value.forEach((el) => {
@@ -385,27 +373,28 @@ export default {
       })
       return result
     },
-
     cancel() {
       this.$refs.inputDialogData.returnOldData()
-
     },
     save() {
-
+      console.log(this.namePool)
+      console.log(this.agentUrl)
     },
 
   },
   watch: {
-
     namePoolLocal() {
       this.$emit('name-pool', this.namePoolLocal)
     },
+    agentLocal() {
+      this.$emit('agent-url', this.agentLocal)
+    }
+
   },
   mounted() {
     this.namePoolLocal = this.namePool
-
+    this.agentLocal = this.agentUrl
   },
-
   components: {dialogModified, inputDialog,}
 }
 </script>

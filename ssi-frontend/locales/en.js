@@ -15,14 +15,11 @@ export default {
     UploadFile: 'Upload File',
     insertFile: 'Insert your File',
     AddAuthorizationToken: 'Add an Authorization Token',
-    
-
+    AuthorizationToken: 'Authorization Token'
   },
   error_messages: {
-
     required: 'the filed {field} is required',
     confirmed: 'the field {field} is not the same',
     undefined: '',
-
   }
 }

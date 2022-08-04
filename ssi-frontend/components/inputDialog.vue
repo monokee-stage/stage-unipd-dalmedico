@@ -1,18 +1,14 @@
 <template>
   <v-container>
-
-
     <v-row justify="center">
       <v-col cols="12" md="12" class="mt-4">
         <h1 class="title-h1">{{ title }}</h1>
       </v-col>
     </v-row>
     <v-row justify="center">
-
       <v-col cols="12" md="12">
         <validation-provider
           v-slot="{errors, reset}"
-
           name="Name"
           :rules="{required:true}"
         >
@@ -25,10 +21,8 @@
             :placeholder="$t('words.insertName')"
             :hide-details="errors.length==0"
             :error-messages="$t('error_messages.' + errors[0], {field:$t('words.name')})"
-
           >
           </v-text-field>
-
         </validation-provider>
       </v-col>
     </v-row>
@@ -40,7 +34,7 @@
           :rules="{required:true}"
         >
           <v-text-field
-            v-model="AgentUrl"
+            v-model="AgentUrlLocal"
             dense
             outlined
             color="primary"
@@ -82,10 +76,11 @@
         <h4 class="title-h4">{{ $t('words.AddAuthorizationToken') }}</h4>
       </v-col>
     </v-row>
-    <v-row justify="center"
-           v-for="(Token,i) in AuthorizationTokenList"
-           :key="i"
-           align="center"
+    <v-row
+      justify="center"
+      v-for="(Token,i) in AuthorizationTokenList"
+      :key="i"
+      align="center"
     >
       <v-col cols="4">
         <validation-provider
@@ -93,7 +88,6 @@
           name="AuthorizationToken"
           :rules="{required:true && customToken===true}"
         >
-
           <v-text-field
             :disabled="customToken===false"
             v-model="Token.name"
@@ -104,22 +98,16 @@
             :placeholder="$t('words.insertAuthorizationTokenName')"
             :hide-details="errors.length==0"
             :error-messages="$t('error_messages.' + errors[0], {fieldset:$t('words.AuthorizationToken')})"
-
             @click:append="cancelToken(i, AuthorizationTokenList)"
           ></v-text-field>
-          <!--|| emptyForm==true-->
         </validation-provider>
       </v-col>
-
       <v-col cols="7" md="7">
-
-
         <validation-provider
           v-slot="{errors}"
           name="AuthorizationToken"
           :rules="{required:true && customToken===true}"
         >
-
           <v-text-field
             :disabled="customToken===false"
             v-model="Token.AuthorizationToken"
@@ -130,28 +118,19 @@
             :placeholder="$t('words.insertAuthorizationTokenValue')"
             :hide-details="errors.length==0"
             :error-messages="$t('error_messages.' + errors[0], {fieldset:$t('words.AuthorizationToken')})"
-
-
           ></v-text-field>
-          <!--@click:append-->
-          <!--|| emptyForm==true-->
         </validation-provider>
-
       </v-col>
       <v-col cols="1" md="1">
         <v-icon @click="cancelToken(i, AuthorizationTokenList)">mdi-delete</v-icon>
       </v-col>
     </v-row>
-
   </v-container>
 </template>
 
 <script>
-//import
-
 import {extend, ValidationProvider} from 'vee-validate';
 import {required, min, max, confirmed, regex} from "vee-validate/dist/rules";
-import dialogModified from "@/components/DialogModified";
 
 extend("min", min);
 extend("max", max);
@@ -168,11 +147,13 @@ export default {
     return {
       customToken: false,
       name: undefined,
-      AgentUrl: undefined,
+      nameBackup: this.name,
       AuthorizationToken: undefined,
       AuthorizationTokenList: [],
       namePoolLocal: undefined,
       namePoolBackup: this.namePoolLocal,
+      AgentUrlLocal: undefined,
+      AgentUrlBackup: this.AgentUrlLocal
     }
   },
   props: {
@@ -186,8 +167,12 @@ export default {
         return ''
       }
     },
-    //emptyForm: {type: Boolean, required: true},
-    //dialogModified: {type: Boolean, required: true}
+    agentUrl: {
+      type: String,
+      default() {
+        return ''
+      }
+    },
   },
   components: {
     ValidationProvider,
@@ -195,19 +180,20 @@ export default {
   mounted() {
     this.namePoolBackup = this.namePool
     this.namePoolLocal = this.namePool
+    this.AgentUrlLocal = this.agentUrl
+    this.AgentUrlBackup = this.agentUrl
   },
   methods: {
     cancelData() {
       this.namePoolLocal = this.namePoolBackup
       this.customToken = false
-      this.AgentUrl = null
+      this.AgentUrlLocal = this.AgentUrlBackup
       this.AuthorizationTokenList = []
       this.AuthorizationToken = null
-
     },
     returnOldData() {
       this.namePoolLocal = this.namePoolBackup
-
+      this.AgentUrlLocal = this.AgentUrlBackup
     },
     addToken(name, value, list) {
       list.push({
@@ -218,15 +204,14 @@ export default {
     cancelToken(index, list) {
       list.splice(index, 1)
     },
-
   },
   watch: {
     namePoolLocal() {
       this.$emit('name-pool', this.namePoolLocal)
+    },
+    AgentUrlLocal() {
+      this.$emit('agent-url', this.AgentUrlLocal)
     }
-
   },
-
 }
-
 </script>

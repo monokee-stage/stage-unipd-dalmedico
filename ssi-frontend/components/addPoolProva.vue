@@ -11,7 +11,7 @@
           <template v-slot:activator="{on,attrs}">
             <v-btn v-on="on" v-bind="attrs" class="primary-btn">Add Pool</v-btn>
           </template>
-          <template v-slot:content="{dialogModified}"> <!--emptyForm,-->
+          <template v-slot:content="{dialogModified}">
             <v-form
               ref="form"
             ></v-form>
@@ -21,10 +21,7 @@
                   title="Add Pool"
                   ref="inputDialogData"
                   :dialogModified="dialogModified"
-
-
                 ></input-dialog>
-                <!--:emptyForm="emptyForm"-->
               </v-col>
             </v-row>
             <v-container>
@@ -36,7 +33,6 @@
                     class="secondary-btn mb-5"
                     background="secondary"
                     borderless
-
                   >
                     <v-btn
                       v-for="(customIndex,i) in customButtons"
@@ -109,7 +105,6 @@
                         </validation-provider>
                       </v-col>
                     </v-row>
-
                   </v-card>
                 </v-col>
               </v-row>
@@ -133,7 +128,7 @@ export default {
       addPool: undefined,
       customSovrin: true,
       UploadFile: false,
-      chosenFile: null, // <- initialize the v-model prop
+      chosenFile: null,
       data: undefined,
       dialog: false,
       Filetext: undefined,
@@ -166,7 +161,6 @@ export default {
         this.data = ""
         this.Filetext = ''
       } else {
-
         let reader = new FileReader();
         reader.readAsText(this.chosenFile);
         reader.onload = () => {
@@ -184,7 +178,7 @@ export default {
     },
     Add() {
       let NameNewPool = this.$refs.inputDialogData.namePoolLocal
-
+      let AgentUrl = this.$refs.inputDialogData.AgentUrlLocal
       let array = []
       let count = 0;
       let obj = ''
@@ -200,17 +194,16 @@ export default {
           obj = ''
         }
       }
-
       let object = {
         "name": NameNewPool,
-        "genesys_txn": array
+        "genesys_txn": array,
+        "Agent": {
+          "AgentUrl": AgentUrl
+        }
       }
       this.PoolList.push(object)
-
       this.close()
     }
-
   }
-
 }
 </script>
