@@ -15,7 +15,8 @@ export default {
     UploadFile: 'Carica da File',
     insertFile: 'Inserisci il tuo File',
     AddAuthorizationToken: 'Aggiungi un Token di Autorizzazione',
-    AuthorizationToken: 'Token di Autorizzazione'
+    AuthorizationToken: 'Token di Autorizzazione',
+    noCard: 'Nessuna Pool trovata...',
   },
   error_messages: {
     required: 'Il campo {field} è richiesto',

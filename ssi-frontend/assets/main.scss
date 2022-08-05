@@ -110,6 +110,11 @@ $box-shadow-style: 0 3px 11px 0 #e8eafc, 0 3px 3px -2px hsla(0, 0%, 69.8%, .1019
   background-color: $secondary-color !important;
 }
 
+.poolListContainer {
+  border: 1px solid $primary-color;
+  border-radius: $border-radius-widget+3;
+}
+
 .listPool {
   box-shadow: $box-shadow-style;
   width: 100%;

@@ -157,7 +157,11 @@ export default {
               {
                 "name": "Token1",
                 "value": "dbsahkvceykvccihaBLCOUVlecvlweuCV"
-              }
+              },
+              {
+                "name": "Token2",
+                "value": "dbsahkvceykvccihaBLCOUVlecvlweuCV"
+              },
             ]
           }
         },

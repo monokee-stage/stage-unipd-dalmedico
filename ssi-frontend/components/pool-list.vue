@@ -1,31 +1,44 @@
 <template>
   <v-container fluid class="mt-5">
-    <v-row align="center" justify="center">
+    <v-row align="center" justify="center" class="poolListContainer">
       <v-col class="" cols="12" md="12" lg="12">
-        <v-list outlined color="#3CD4A0" class="listPool d-flex flex-column justify-space-around my-5">
-          <v-list-item
-            align="center"
-            class="pa-1"
-            v-for="(Pool,i) in PoolList"
-            :key="i"
-          >
-            <v-row align="center" justify="center">
-              <v-col cols="12">
-                <pool-new
-                  :index="i"
-                  :name-pool="Pool.name"
-                  :pool-json="Pool.genesys_txn"
-                  :agent-url="Pool.Agent.AgentUrl"
-                  :token="Pool.Agent.AuthorizationToken"
-                  @cancelPool="cancelPoolItem"
-                  @name-pool="Pool.name=$event"
-                  @agent-url="Pool.Agent.AgentUrl=$event"
-                >
-                </pool-new>
-              </v-col>
-            </v-row>
-          </v-list-item>
-        </v-list>
+        <!--<v-list
+          outlined
+          color="#3CD4A0"
+          class="listPool d-flex flex-column justify-space-around my-5">
+          -->
+        <v-row v-if="PoolList.length===0" align="center" justify="center">
+          <v-col cols="10" align="center">
+            <h2 class="title-h2 pa-4">{{ $t('words.noCard') }}</h2>
+          </v-col>
+        </v-row>
+
+        <!--<v-list-item
+          align="center"
+          class="pa-1"
+
+        > -->
+        <v-row align="center" justify="center" v-for="(Pool,i) in PoolList"
+               :key="i">
+          <v-col cols="12">
+            <pool-new
+              :key="random"
+              :index="i"
+              :name-pool="Pool.name"
+              :pool-json="Pool.genesys_txn"
+              :agent-url="Pool.Agent.AgentUrl"
+              :AuthorizationTokenList="Pool.Agent.AuthorizationToken"
+
+              @cancelPool="cancelPoolItem"
+              @name-pool="Pool.name=$event"
+              @agent-url="Pool.Agent.AgentUrl=$event"
+              @AuthorizationTokenList="Pool.Agent.AuthorizationToken=$event"
+            >
+            </pool-new>
+          </v-col>
+        </v-row>
+        <!--</v-list-item>
+      </v-list>-->
       </v-col>
     </v-row>
   </v-container>
@@ -37,7 +50,9 @@ import poolNew from "./poolNew";
 export default {
   components: {poolNew},
   data() {
-    return {}
+    return {
+      random: 0,
+    }
   },
   props: {
     PoolList: {
@@ -49,6 +64,7 @@ export default {
   methods: {
     cancelPoolItem(index) {
       this.PoolList.splice(index, 1)
+      this.random = Math.random()
     }
   }
 }

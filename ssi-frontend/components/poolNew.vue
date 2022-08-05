@@ -6,9 +6,10 @@
           action-button="Save"
           @closeDialog="cancel()"
           @actionDialog="save()"
+          v-if="hide"
         >
           <template v-slot:activator="{on,attrs}">
-            <v-card v-on="on" class="card-style my-1 mx-3">
+            <v-card v-on="on" class="card-style mx-3">
               <v-row align="center" justify="center">
                 <v-col cols="8" md="8">
                   <v-row align="center" justify="space-around">
@@ -48,6 +49,8 @@
                   @name-pool="namePoolLocal=$event"
                   @agent-url="agentLocal=$event"
                   ref="inputDialogData"
+                  :AuthorizationTokenList="AuthorizationTokenListLocal"
+                  @AuthorizationTokenList="AuthorizationTokenListLocal=$event"
                 ></input-dialog>
                 <v-container class="container-dialog" outlined>
                   <v-row align="center" justify="space-between">
@@ -201,6 +204,7 @@
 import dialogModified from "~/components/DialogModified";
 import inputDialog from "~/components/inputDialog";
 import poolList from "@/components/pool-list";
+import PoolList from "@/components/pool-list";
 
 export default {
   data() {
@@ -209,6 +213,8 @@ export default {
       namePoolBackup: this.namePoolLocal,
       agentLocal: undefined,
       agentBackup: this.agentLocal,
+      AuthorizationTokenListLocal: undefined,
+      AuthorizationTokenListBackup: this.AuthorizationTokenListLocal,
       search: undefined,
       switchMod: true,
       chooseMod: undefined,
@@ -217,6 +223,7 @@ export default {
       table: [],
       allDatadialog: false,
       chooseModVisual: false,
+      hide: true,
       element: {
         "reqSignature": {},
         "txn": {
@@ -347,6 +354,12 @@ export default {
       default() {
         return ''
       }
+    },
+    AuthorizationTokenList: {
+      type: Array,
+      default() {
+        return []
+      }
     }
   },
   methods: {
@@ -357,7 +370,8 @@ export default {
         return "Json"
       }
     },
-    cancelPool(index) {
+    cancelPool() {
+      this.hide = false
       this.$emit('cancelPool', this.index)
     },
     showData(item) {
@@ -375,10 +389,14 @@ export default {
     },
     cancel() {
       this.$refs.inputDialogData.returnOldData()
+      this.buttonIndex = []
+      this.chooseModVisual = false
+      this.switchMod = true
+
     },
     save() {
-      console.log(this.namePool)
-      console.log(this.agentUrl)
+      this.$refs.inputDialogData.customToken = false
+
     },
 
   },
@@ -388,12 +406,19 @@ export default {
     },
     agentLocal() {
       this.$emit('agent-url', this.agentLocal)
+    },
+    AuthorizationTokenListLocal: {
+      deep: true,
+      handler() {
+        this.$emit('AuthorizationTokenList', this.AuthorizationTokenListLocal)
+      }
     }
 
   },
   mounted() {
     this.namePoolLocal = this.namePool
     this.agentLocal = this.agentUrl
+    this.AuthorizationTokenListLocal = this.AuthorizationTokenList
   },
   components: {dialogModified, inputDialog,}
 }

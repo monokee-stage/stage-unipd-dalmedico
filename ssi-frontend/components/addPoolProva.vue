@@ -1,118 +1,115 @@
 <template>
   <v-container>
-    <v-row justify="center">
-      <v-col cols="10" md="10" lg="10">
-        <dialog-modified
-          v-model="dialog"
-          action-button="Add"
-          @closeDialog="close"
-          @actionDialog="Add"
-        >
-          <template v-slot:activator="{on,attrs}">
-            <v-btn v-on="on" v-bind="attrs" class="primary-btn">Add Pool</v-btn>
-          </template>
-          <template v-slot:content="{dialogModified}">
-            <v-form
-              ref="form"
-            ></v-form>
-            <v-row justify="center">
-              <v-col cols="10" md="10" lg="10">
-                <input-dialog
-                  title="Add Pool"
-                  ref="inputDialogData"
-                  :dialogModified="dialogModified"
-                ></input-dialog>
-              </v-col>
-            </v-row>
-            <v-container>
-              <v-row justify="center">
-                <v-col cols="10" md="10" align="center">
-                  <v-btn-toggle
-                    v-model="customIndex"
-                    dense
-                    class="secondary-btn mb-5"
-                    background="secondary"
-                    borderless
-                  >
-                    <v-btn
-                      v-for="(customIndex,i) in customButtons"
-                      :key="i"
-                      small
-                    >
-                      {{ customIndex }}
-                    </v-btn>
-                  </v-btn-toggle>
-                </v-col>
-              </v-row>
-              <v-row justify="center">
-                <v-col cols="10" md="10">
-                  <v-card
-                    v-if="customIndex==2"
-                  >
-                    <v-row justify="center">
-                      <v-col cols="10">
-                        <v-card-title>Genesis Txn</v-card-title>
+    <dialog-modified
+      v-model="dialog"
+      action-button="Add"
+      @closeDialog="close"
+      @actionDialog="Add"
+    >
+      <template v-slot:activator="{on,attrs}">
+        <v-btn v-on="on" v-bind="attrs" class="primary-btn">Add Pool</v-btn>
+      </template>
+      <template v-slot:content="{dialogModified}">
+        <v-form
+          ref="form"
+        ></v-form>
+        <v-row justify="center">
+          <v-col cols="10" md="10" lg="10">
+            <input-dialog
+              title="Add Pool"
+              ref="inputDialogData"
+              :dialogModified="dialogModified"
+            ></input-dialog>
+          </v-col>
+        </v-row>
+        <v-container>
+          <v-row justify="center">
+            <v-col cols="10" md="10" align="center">
+              <v-btn-toggle
+                v-model="customIndex"
+                dense
+                class="secondary-btn mb-5"
+                background="secondary"
+                borderless
+              >
+                <v-btn
+                  v-for="(customIndex,i) in customButtons"
+                  :key="i"
+                  small
+                >
+                  {{ customIndex }}
+                </v-btn>
+              </v-btn-toggle>
+            </v-col>
+          </v-row>
+          <v-row justify="center">
+            <v-col cols="10" md="10">
+              <v-card
+                v-if="customIndex==2"
+              >
+                <v-row justify="center">
+                  <v-col cols="10">
+                    <v-card-title>Genesis Txn</v-card-title>
 
-                      </v-col>
-                    </v-row>
-                    <v-row justify="center">
-                      <v-col cols="11" md="11">
-                        <v-switch
-                          v-model="UploadFile"
-                          color="primary"
-                          inset
-                          :label="$t('words.UploadFile')"
-                        ></v-switch>
-                      </v-col>
-                    </v-row>
-                    <v-row justify="center">
-                      <v-col cols="11" md="11">
-                        <v-file-input
-                          v-model="chosenFile"
-                          color="primary"
-                          :label="$t('words.UploadFile')"
-                          :placeholder="$t('words.insertFile')"
-                          prepend-inner-icon="mdi-cloud-upload"
-                          outlined
-                          accept=".json, .txt"
-                          prepend-icon=""
-                          show-size
-                          v-if="UploadFile===true"
-                          hide-details
-                          @change="showFiles()"
-                        >
-                        </v-file-input>
-                      </v-col>
-                    </v-row>
-                    <v-row justify="center">
-                      <v-col cols="11" md="11">
-                        <validation-provider
-                          v-slot="{errors}"
-                          name="AuthorizationToken"
-                          :rules="{required:true}"
-                        >
-                          <v-textarea
-                            v-model="Filetext"
-                            label="Genesys Txn"
-                            outlined
-                            :value="data"
-                            auto-grow
-                            hide-details
-                            color="primary"
-                            readonly
-                          >
-                          </v-textarea>
-                        </validation-provider>
-                      </v-col>
-                    </v-row>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-container>
-          </template>
-        </dialog-modified>
-      </v-col>
-    </v-row>
+                  </v-col>
+                </v-row>
+                <v-row justify="center">
+                  <v-col cols="11" md="11">
+                    <v-switch
+                      v-model="UploadFile"
+                      color="primary"
+                      inset
+                      :label="$t('words.UploadFile')"
+                      hide-details
+                    ></v-switch>
+                  </v-col>
+                </v-row>
+                <v-row justify="center" v-if="UploadFile===true">
+                  <v-col cols="11" md="11">
+                    <v-file-input
+                      v-model="chosenFile"
+                      color="primary"
+                      :label="$t('words.UploadFile')"
+                      :placeholder="$t('words.insertFile')"
+                      prepend-inner-icon="mdi-cloud-upload"
+                      outlined
+                      accept=".json, .txt"
+                      prepend-icon=""
+                      show-size
+
+                      hide-details
+                      @change="showFiles()"
+                    >
+                    </v-file-input>
+                  </v-col>
+                </v-row>
+                <v-row justify="center">
+                  <v-col cols="11" md="11">
+                    <validation-provider
+                      v-slot="{errors}"
+                      name="AuthorizationToken"
+                      :rules="{required:true}"
+                    >
+                      <v-textarea
+                        v-model="Filetext"
+                        label="Genesys Txn"
+                        outlined
+                        :value="data"
+                        auto-grow
+                        hide-details
+                        color="primary"
+                      >
+                      </v-textarea>
+                    </validation-provider>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-container>
+      </template>
+    </dialog-modified>
+
   </v-container>
 </template>
 

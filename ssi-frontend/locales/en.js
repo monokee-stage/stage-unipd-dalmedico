@@ -15,7 +15,8 @@ export default {
     UploadFile: 'Upload File',
     insertFile: 'Insert your File',
     AddAuthorizationToken: 'Add an Authorization Token',
-    AuthorizationToken: 'Authorization Token'
+    AuthorizationToken: 'Authorization Token',
+    noCard: 'No pools found...'
   },
   error_messages: {
     required: 'the filed {field} is required',

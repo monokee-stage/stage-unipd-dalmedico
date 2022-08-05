@@ -83,46 +83,31 @@
       align="center"
     >
       <v-col cols="4">
-        <validation-provider
-          v-slot="{errors}"
-          name="AuthorizationToken"
-          :rules="{required:true && customToken===true}"
-        >
-          <v-text-field
-            :disabled="customToken===false"
-            v-model="Token.name"
-            dense
-            outlined
-            color="primary"
-            :label="$t('words.AuthorizationTokenName')"
-            :placeholder="$t('words.insertAuthorizationTokenName')"
-            :hide-details="errors.length==0"
-            :error-messages="$t('error_messages.' + errors[0], {fieldset:$t('words.AuthorizationToken')})"
-            @click:append="cancelToken(i, AuthorizationTokenList)"
-          ></v-text-field>
-        </validation-provider>
+        <v-text-field
+          :disabled="customToken===false"
+          v-model="Token.name"
+          dense
+          outlined
+          color="primary"
+          :label="$t('words.AuthorizationTokenName')"
+          :placeholder="$t('words.insertAuthorizationTokenName')"
+          hide-details
+        ></v-text-field>
       </v-col>
       <v-col cols="7" md="7">
-        <validation-provider
-          v-slot="{errors}"
-          name="AuthorizationToken"
-          :rules="{required:true && customToken===true}"
-        >
-          <v-text-field
-            :disabled="customToken===false"
-            v-model="Token.AuthorizationToken"
-            dense
-            outlined
-            color="primary"
-            :label="$t('words.AuthorizationTokenValue')"
-            :placeholder="$t('words.insertAuthorizationTokenValue')"
-            :hide-details="errors.length==0"
-            :error-messages="$t('error_messages.' + errors[0], {fieldset:$t('words.AuthorizationToken')})"
-          ></v-text-field>
-        </validation-provider>
+        <v-text-field
+          :disabled="customToken===false"
+          v-model="Token.value"
+          dense
+          outlined
+          color="primary"
+          :label="$t('words.AuthorizationTokenValue')"
+          :placeholder="$t('words.insertAuthorizationTokenValue')"
+          hide-details
+        ></v-text-field>
       </v-col>
-      <v-col cols="1" md="1">
-        <v-icon @click="cancelToken(i, AuthorizationTokenList)">mdi-delete</v-icon>
+      <v-col cols="1" md="1" align="end">
+        <v-icon @click="cancelToken(i, AuthorizationTokenListLocal)" :disabled="customToken===false">mdi-delete</v-icon>
       </v-col>
     </v-row>
   </v-container>
@@ -149,11 +134,12 @@ export default {
       name: undefined,
       nameBackup: this.name,
       AuthorizationToken: undefined,
-      AuthorizationTokenList: [],
+      AuthorizationTokenListLocal: [],
       namePoolLocal: undefined,
       namePoolBackup: this.namePoolLocal,
       AgentUrlLocal: undefined,
-      AgentUrlBackup: this.AgentUrlLocal
+      AgentUrlBackup: this.AgentUrlLocal,
+      AuthorizationTokenListbackup: this.AuthorizationTokenListLocal
     }
   },
   props: {
@@ -173,6 +159,11 @@ export default {
         return ''
       }
     },
+    AuthorizationTokenList: {
+      type: Array, default() {
+        return []
+      }
+    }
   },
   components: {
     ValidationProvider,
@@ -182,18 +173,20 @@ export default {
     this.namePoolLocal = this.namePool
     this.AgentUrlLocal = this.agentUrl
     this.AgentUrlBackup = this.agentUrl
+    this.AuthorizationTokenListLocal = this.AuthorizationTokenList
+    this.AuthorizationTokenListbackup = this.AuthorizationTokenList
   },
   methods: {
     cancelData() {
       this.namePoolLocal = this.namePoolBackup
       this.customToken = false
       this.AgentUrlLocal = this.AgentUrlBackup
-      this.AuthorizationTokenList = []
-      this.AuthorizationToken = null
+      this.AuthorizationTokenListLocal = this.AuthorizationTokenListbackup
     },
     returnOldData() {
       this.namePoolLocal = this.namePoolBackup
       this.AgentUrlLocal = this.AgentUrlBackup
+      this.AuthorizationTokenListLocal = this.AuthorizationTokenListbackup
     },
     addToken(name, value, list) {
       list.push({
@@ -211,6 +204,13 @@ export default {
     },
     AgentUrlLocal() {
       this.$emit('agent-url', this.AgentUrlLocal)
+    },
+    AuthorizationTokenListLocal: {
+      deep: true,
+      handler() {
+        this.$emit('AuthorizationTokenList', this.AuthorizationTokenListLocal)
+      }
+
     }
   },
 }
