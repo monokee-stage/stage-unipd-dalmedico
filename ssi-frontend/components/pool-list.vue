@@ -18,8 +18,7 @@
           class="pa-1"
 
         > -->
-        <v-row align="center" justify="center" v-for="(Pool,i) in PoolList"
-               :key="i">
+        <v-row align="center" justify="center" v-for="(Pool,i) in PoolList" :key="i">
           <v-col cols="12">
             <pool-new
               :key="random"
