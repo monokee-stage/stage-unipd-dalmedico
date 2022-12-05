@@ -399,7 +399,7 @@
                 outlined
                 color="primary"
                 :label="$t('words.name')"
-                :placeholder="$t('words.insertname')"
+                :placeholder="$t('words.insertName')"
                 :hide-details="errors.length==0"
                 :error-messages="$t('error_messages.' +errors[0], {field:$t('words.name')})"
               >
@@ -514,7 +514,7 @@ export default {
     },
     listeningPort: {
       type: Number, default() {
-        return 0
+        return null
       }
     },
     outboundTransport: {
@@ -539,7 +539,7 @@ export default {
     },
     AdminListeningPort: {
       type: Number, default() {
-        return 0
+        return null
       }
     },
     AdminApiKey: {

@@ -176,6 +176,7 @@ export default {
     Add() {
       let NameNewPool = this.$refs.inputDialogData.namePoolLocal
       let AgentUrl = this.$refs.inputDialogData.AgentUrlLocal
+      let AuthorizationToken = this.$refs.inputDialogData.AuthorizationTokenListLocal
       let array = []
       let count = 0;
       let obj = ''
@@ -195,7 +196,8 @@ export default {
         "name": NameNewPool,
         "genesys_txn": array,
         "Agent": {
-          "AgentUrl": AgentUrl
+          "AgentUrl": AgentUrl,
+          "AuthorizationToken": AuthorizationToken
         }
       }
       this.PoolList.push(object)

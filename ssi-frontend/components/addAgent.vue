@@ -1,22 +1,30 @@
 <template>
   <v-container>
-    <dialog-modified
-      v-model="dialog"
-      action-button="Add"
-      @closeDialog="close"
-      @actionDialog="Add"
-    >
-      <template v-slot:activator="{on,attrs}">
-        <v-btn v-on="on" v-bind="attrs" class="primary-btn">Add Pool</v-btn>
-      </template>
-      <template v-slot:content="{dialogModified}">
-        <form-agent
-          title="Add Agent"
-          ref="formData"
-          :dialogModified="dialogModified"
-        ></form-agent>
-      </template>
-    </dialog-modified>
+    <v-row>
+      <v-col cols="10" md="10">
+        <dialog-modified
+          v-model="dialog"
+          action-button="Add"
+          @closeDialog="close"
+          @actionDialog="Add"
+        >
+          <template v-slot:activator="{on,attrs}">
+            <v-btn v-on="on" v-bind="attrs" class="primary-btn">Add Agent</v-btn>
+          </template>
+          <template v-slot:content="{dialogModified}">
+            <v-row justify="center">
+              <v-col cols="10" md="10">
+                <form-agent
+                  title="Add Agent"
+                  ref="formData"
+                  :dialogModified="dialogModified"
+                ></form-agent>
+              </v-col>
+            </v-row>
+          </template>
+        </dialog-modified>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 <script>
