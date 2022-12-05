@@ -253,17 +253,25 @@ export default {
           title: 'Flows engine',
         },
         {
-          _id: 'ssi',
+          _id: 'Pool',
           icon: 'mdi-account-star',
-          title: 'Self Sovereign Identity',
-          url: '/administration/applications',
+          title: 'Pool',
+          url: '/PoolPage',
           allowed: true,
         },
+        {
+          _id: 'Agent',
+          icon: 'mdi-account-key',
+          title: 'Agent',
+          url: '/AgentPage',
+          allowed: true,
+        }
       ],
     }
   },
   computed: {
     breadcrumbs() {
+
       let splitted = this.$route.path.split('/')
       const lang = splitted[1]
       splitted.shift()
@@ -287,7 +295,7 @@ export default {
               text:
               el,
               disabled:
-                el == 'administration' || el == 'flows' || el == 'ssi'
+                el == 'administration' || el == 'flows' || el == 'Pool' || el == 'Agent'
                   ? true
                   : false,
               href: partial + el,
