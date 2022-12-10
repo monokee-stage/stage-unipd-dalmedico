@@ -116,7 +116,7 @@
 <script>
 import dialogModified from "@/components/DialogModified";
 import inputDialog from "@/components/inputDialog";
-import PoolList from "@/components/pool-list";
+import PoolList from "@/components/PoolList";
 import {ValidationProvider} from "vee-validate";
 
 export default {

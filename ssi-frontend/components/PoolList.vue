@@ -20,20 +20,20 @@
         > -->
         <v-row align="center" justify="center" v-for="(Pool,i) in PoolList" :key="i">
           <v-col cols="12">
-            <pool-new
+            <pool
               :key="random"
               :index="i"
               :name-pool="Pool.name"
               :pool-json="Pool.genesys_txn"
               :agent-url="Pool.Agent.AgentUrl"
               :AuthorizationTokenList="Pool.Agent.AuthorizationToken"
-
               @cancelPool="cancelPoolItem"
               @name-pool="Pool.name=$event"
               @agent-url="Pool.Agent.AgentUrl=$event"
               @AuthorizationTokenList="Pool.Agent.AuthorizationToken=$event"
             >
-            </pool-new>
+
+            </pool>
           </v-col>
         </v-row>
         <!--</v-list-item>
@@ -44,13 +44,14 @@
 </template>
 
 <script>
-import poolNew from "./poolNew";
+import pool from "~/components/Pool";
 
 export default {
-  components: {poolNew},
+  components: {pool},
   data() {
     return {
       random: 0,
+      pool: undefined
     }
   },
   props: {

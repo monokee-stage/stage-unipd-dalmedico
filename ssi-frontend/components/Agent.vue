@@ -14,9 +14,7 @@
               <v-row align="center" justify="center">
                 <v-col cols="8" md="8">
                   <v-row align="center" justify="space-around">
-                    <v-col cols="3" md="3" class="ml-2">
-                      <v-icon class="">mdi-alert-circle</v-icon>
-                    </v-col>
+                    
                     <v-col cols="8" md="8" align="start">
                       <h2 class="title-h2">{{ nameAgentLocal }}</h2>
                     </v-col>

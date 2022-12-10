@@ -7,6 +7,7 @@
             v-model="dialogModified"
             hide-overlay
             width="80%"
+
           >
             <template v-slot:activator="{ on, attrs }">
               <slot

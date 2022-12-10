@@ -13,9 +13,7 @@
               <v-row align="center" justify="center">
                 <v-col cols="8" md="8">
                   <v-row align="center" justify="space-around">
-                    <v-col cols="3" md="3" class="ml-2">
-                      <v-icon class="">mdi-alert-circle</v-icon>
-                    </v-col>
+                    
                     <v-col cols="8" md="8" align="start">
                       <h2 class="title-h2">{{ namePoolLocal }}</h2>
                     </v-col>
@@ -203,8 +201,8 @@
 <script>
 import dialogModified from "~/components/DialogModified";
 import inputDialog from "~/components/inputDialog";
-import poolList from "@/components/pool-list";
-import PoolList from "@/components/pool-list";
+import poolList from "@/components/PoolList";
+import PoolList from "@/components/PoolList";
 
 export default {
   data() {

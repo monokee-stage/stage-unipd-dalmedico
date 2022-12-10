@@ -6,9 +6,9 @@
           <h1 class="title-h1">Pool Configuration</h1>
         </v-col>
         <v-col cols="12" md="5" lg="4" align="center">
-          <add-pool-prova
+          <add-pool
             :PoolList="PoolList"
-          ></add-pool-prova>
+          ></add-pool>
         </v-col>
       </v-row>
       <v-row class="mt-5" justify="center">
@@ -22,8 +22,8 @@
   </v-container>
 </template>
 <script>
-import poolList from "~/components/pool-list";
-import addPoolProva from "~/components/addPoolProva";
+import poolList from "@/components/PoolList";
+import addPool from "@/components/addPool";
 
 export default {
   layout: 'easySidebar',
@@ -299,6 +299,6 @@ export default {
     }
   },
   methods: {},
-  components: {poolList, addPoolProva}
+  components: {poolList, addPool}
 }
 </script>
